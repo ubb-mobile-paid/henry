@@ -40,12 +40,15 @@ def format_character(code: int) -> str:
 def main() -> int:
     args = parse_args()
     if args.start < 0:
-        raise SystemExit("--start must be >= 0")
+        raise SystemExit(f"--start must be >= 0 (got {args.start})")
     if args.end > MAX_ASCII:
         raise SystemExit(f"--end must be <= {MAX_ASCII}")
     if args.start > args.end:
-        raise SystemExit("--start must be <= --end")
+        raise SystemExit(
+            f"--start must be <= --end (got start={args.start}, end={args.end})"
+        )
 
+    print("code char")
     for code in range(args.start, args.end + 1):
         print(f"{code:3} {format_character(code)}")
     return 0
