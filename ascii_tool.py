@@ -6,6 +6,10 @@ from __future__ import annotations
 
 import argparse
 
+PRINTABLE_START = 32
+PRINTABLE_END = 126
+MAX_ASCII = 127
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -14,28 +18,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--start",
         type=int,
-        default=32,
-        help="Starting ASCII code (default: 32).",
+        default=PRINTABLE_START,
+        help=f"Starting ASCII code (default: {PRINTABLE_START}).",
     )
     parser.add_argument(
         "--end",
         type=int,
-        default=126,
-        help="Ending ASCII code (default: 126).",
+        default=PRINTABLE_END,
+        help=f"Ending ASCII code (default: {PRINTABLE_END}).",
     )
     return parser.parse_args()
 
 
 def format_character(code: int) -> str:
-    if 32 <= code <= 126:
+    if PRINTABLE_START <= code <= PRINTABLE_END:
         return chr(code)
     return repr(chr(code))[1:-1]
 
 
 def main() -> int:
     args = parse_args()
-    if args.start < 0 or args.end > 127 or args.start > args.end:
-        raise SystemExit("Expected 0 <= --start <= --end <= 127")
+    if args.start < 0 or args.end > MAX_ASCII or args.start > args.end:
+        raise SystemExit(f"Expected 0 <= --start <= --end <= {MAX_ASCII}")
 
     for code in range(args.start, args.end + 1):
         print(f"{code:3} {format_character(code)}")
