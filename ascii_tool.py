@@ -31,6 +31,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def format_character(code: int) -> str:
+    """Return printable ASCII directly and escape non-printable characters."""
     if PRINTABLE_START <= code <= PRINTABLE_END:
         return chr(code)
     return repr(chr(code))[1:-1]
@@ -38,8 +39,12 @@ def format_character(code: int) -> str:
 
 def main() -> int:
     args = parse_args()
-    if args.start < 0 or args.end > MAX_ASCII or args.start > args.end:
-        raise SystemExit(f"Expected 0 <= --start <= --end <= {MAX_ASCII}")
+    if args.start < 0:
+        raise SystemExit("--start must be >= 0")
+    if args.end > MAX_ASCII:
+        raise SystemExit(f"--end must be <= {MAX_ASCII}")
+    if args.start > args.end:
+        raise SystemExit("--start must be <= --end")
 
     for code in range(args.start, args.end + 1):
         print(f"{code:3} {format_character(code)}")
