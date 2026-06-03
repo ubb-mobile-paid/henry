@@ -9,6 +9,7 @@ import argparse
 PRINTABLE_START = 32
 PRINTABLE_END = 126
 MAX_ASCII = 127
+CODE_WIDTH = 4
 
 
 def parse_args() -> argparse.Namespace:
@@ -48,10 +49,10 @@ def main() -> int:
             f"--start must be <= --end (got start={args.start}, end={args.end})"
         )
 
-    print("code char")
-    print("---- ----")
+    print(f"{'code':>{CODE_WIDTH}} char")
+    print(f"{'-' * CODE_WIDTH} ----")
     for code in range(args.start, args.end + 1):
-        print(f"{code:3} {format_character(code)}")
+        print(f"{code:>{CODE_WIDTH}} {format_character(code)}")
     return 0
 
 
